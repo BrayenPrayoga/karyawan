@@ -47,8 +47,7 @@
             "app/Helpers/global_helper.php"
         ],
         "classmap": [
-            "database/seeds",
-            "database/factories"
+            "database/seeds"
         ]
     },
     "autoload-dev": {
