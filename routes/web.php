@@ -19,6 +19,7 @@ Route::namespace('Auth')->group(function () {
     Route::get('/login', 'LoginController@getLogin')->middleware('guest');
     Route::post('/login', 'LoginController@postLogin')->name('login');
     Route::get('/logout', 'LoginController@logout')->name('logout');
+    Route::get('/register', 'RegisterController@getRegister')->name('register');
 });
 
 Route::name('admin.')->middleware('auth:admin')->prefix('admin')->group(function () {
