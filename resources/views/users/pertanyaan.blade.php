@@ -24,39 +24,54 @@
                 @endif
                 <div class="row">
                     <div class="col-lg-12">
-                        @if(getPelamar($pelamar->id)->tipe_kepribadian_id == null)
-                            <p>{{ $nomor }}</p>
-                            <form id="form-test-kepribadian" method="POST" action="{{ route('user.simpan_pertanyaan') }}">
-                                @csrf
-                                <input type="hidden" name="nomor" value="{{ $nomor }}">
-                                @foreach($pertanyaan as $result)
-                                    <div class="radio">
-                                        <label><input type="radio" name="pernyataan_kepribadian_id" value="{{ $result->id }}" {{ $jawabanSoalKepribadian != null ? ($jawabanSoalKepribadian->pernyataan_kepribadian_id == $result->id ? 'checked' : '') : ''}}> {{ $result->soal }}</label>
-                                    </div>
-                                @endforeach
-                            </form>
-                            <br>
-                            @if ($nomor >= 2)
-                                <a id="button-previous" href="#" class="btn btn-info" role="button">Sebelumnya</a>
-                            @endif
-                            @if ($nomor >= count($cek_pertanyaan))
-                                <a id="button-finish" href="#" class="btn btn-info" role="button">Finish</a>
-                            @elseif ($nomor >= 1)
-                                <a id="button-next" href="#" class="btn btn-info" role="button">Berikutnya</a>
+                        @if(!empty($pelamar->cv))
+                            @if(getPelamar($pelamar->id)->tipe_kepribadian_id == null)
+                                <p>{{ $nomor }}</p>
+                                <form id="form-test-kepribadian" method="POST" action="{{ route('user.simpan_pertanyaan') }}">
+                                    @csrf
+                                    <input type="hidden" name="nomor" value="{{ $nomor }}">
+                                    @foreach($pertanyaan as $result)
+                                        <div class="radio">
+                                            <label><input type="radio" name="pernyataan_kepribadian_id" value="{{ $result->id }}" {{ $jawabanSoalKepribadian != null ? ($jawabanSoalKepribadian->pernyataan_kepribadian_id == $result->id ? 'checked' : '') : ''}}> {{ $result->soal }}</label>
+                                        </div>
+                                    @endforeach
+                                </form>
+                                <br>
+                                @if ($nomor >= 2)
+                                    <a id="button-previous" href="#" class="btn btn-info" role="button">Sebelumnya</a>
+                                @endif
+                                @if ($nomor >= count($cek_pertanyaan))
+                                    <a id="button-finish" href="#" class="btn btn-info" role="button">Finish</a>
+                                @elseif ($nomor >= 1)
+                                    <a id="button-next" href="#" class="btn btn-info" role="button">Berikutnya</a>
+                                @endif
+                            @else
+                                <p style="color:blue;"><b>{{ $tipe_kepribadian->kode }} ({{ $tipe_kepribadian->nama }})</b></p>
+                                <ul>
+                                    @foreach($deskripsi_tipe_kepribadian as $val)
+                                    <li>{{ $val->deskripsi }}</li>
+                                    @endforeach
+                                </ul>
+                                <p style="color:black;"><b>SARAN PENGEMBANGAN :</b></p>
+                                <ul>
+                                    @foreach($saran_pengembangan_tipe_kepribadian as $val)
+                                    <li>{{ $val->saran_pengembangan }}</li>
+                                    @endforeach
+                                </ul>
                             @endif
                         @else
-                            <p style="color:blue;"><b>{{ $tipe_kepribadian->kode }} ({{ $tipe_kepribadian->nama }})</b></p>
-                            <ul>
-                                @foreach($deskripsi_tipe_kepribadian as $val)
-                                <li>{{ $val->deskripsi }}</li>
-                                @endforeach
-                            </ul>
-                            <p style="color:black;"><b>SARAN PENGEMBANGAN :</b></p>
-                            <ul>
-                                @foreach($saran_pengembangan_tipe_kepribadian as $val)
-                                <li>{{ $val->saran_pengembangan }}</li>
-                                @endforeach
-                            </ul>
+                            <div class="alert alert-info alert-dismissible" role="alert">
+                                <div class="alert-icon" style="font-size:28px;">
+                                    <i class="fa fa-bell"></i>
+                                </div>
+                                <div class="alert-message" style="font-size:20px;">
+                                    <span>
+                                        <strong>Info !</strong>
+                                        <br>
+                                        Silahkan Upload Curriculum Vitae Terlebih Dahulu !
+                                    </span>
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>

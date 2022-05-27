@@ -14,12 +14,13 @@ Route::get('/', function () {
     return view('template.frontend.index');
 });
 
-Auth::routes(['register' => false]);
+// Auth::routes(['register' => false]);
 Route::namespace('Auth')->group(function () {
     Route::get('/login', 'LoginController@getLogin')->middleware('guest');
     Route::post('/login', 'LoginController@postLogin')->name('login');
-    Route::get('/logout', 'LoginController@logout')->name('logout');
+    Route::post('/logout', 'LoginController@logout')->name('logout');
     Route::get('/register', 'RegisterController@getRegister')->name('register');
+    Route::post('/register', 'RegisterController@postRegister')->name('register.simpan');
 });
 
 Route::name('admin.')->middleware('auth:admin')->prefix('admin')->group(function () {

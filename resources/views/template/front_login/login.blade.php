@@ -1,111 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<title>SELEKSI KARYAWAN</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{{ asset('assets/img/icon.png') }}"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="asset_login/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="asset_login/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="asset_login/css/util.css">
-	<link rel="stylesheet" type="text/css" href="asset_login/css/main.css">
-<!--===============================================================================================-->
-</head>
+    <title>SELEKSI KARYAWAN</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=dev<!DOCTYPE html>
+	<html lang=" en">
+
+    <!-- Mirrored from codervent.com/bulona/demo/authentication-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Jun 2020 14:20:12 GMT -->
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>SELEKSI KARYAWAN</title>
+        <!--favicon-->
+  		<link rel="icon" type="image/png" href="{{ asset('assets/img/icon.png') }}"/>
+        <!-- Bootstrap core CSS-->
+        <link href="{{ asset('asset_login/css/bootstrap.min.css') }}" rel="stylesheet" />
+        <!-- animate CSS-->
+        <link href="{{ asset('asset_login/css/animate.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Icons CSS-->
+        <link href="{{ asset('asset_login/css/icons.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Custom Style-->
+        <link href="{{ asset('asset_login/css/app-style.css') }}" rel="stylesheet" />
+
+    </head>
+
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100 p-l-75 p-r-75 p-t-55 p-b-55">
-				<form class="login100-form validate-form flex-sb flex-w" method="POST" action="{{ route('login') }}">
-				{{ csrf_field() }}
-					<div class="login100-form-avatar">
-						<img src="{{ asset('assets/img/icon.png') }}" alt="AVATAR">
-					</div>
 
-					<span class="login100-form-title p-b-32">
-						LOGIN SELEKSI KARYAWAN
-					</span>
+    <!-- start loader -->
+    <div id="pageloader-overlay" class="visible incoming">
+        <div class="loader-wrapper-outer">
+            <div class="loader-wrapper-inner">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </div>
+    <!-- end loader -->
 
-					{{-- <span class="txt1 p-b-11">
-						Username
-					</span> --}}
-					<div class="wrap-input100 validate-input m-b-25" data-validate = "Email is required">
-						<input class="input100" type="email" name="email" id="email" placeholder="Email">
-						<span class="focus-input100"></span>
-					</div>
-					
-					{{-- <span class="txt1 p-b-11">
-						Password
-					</span> --}}
-					<div class="wrap-input100 validate-input m-b-12" data-validate = "Password is required">
-						<span class="btn-show-pass">
-							<i class="fa fa-eye"></i>
-						</span>
-						<input class="input100" type="password" name="password" placeholder="Password">
-						<span class="focus-input100"></span>
-					</div>
-					
-					<div class="flex-sb-m w-full p-b-48">
-						{{-- <div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Remember me
-							</label>
-						</div> --}}
+    <!-- Start wrapper-->
+    <div id="wrapper">
 
-						{{-- <div>
-							<a href="#" class="txt3">
-								Forgot Password?
-							</a>
-						</div> --}}
-					</div>
+        <div class="loader-wrapper">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="card card-authentication1 mx-auto my-5">
+            <div class="card-body">
+                <div class="card-content p-2">
+                    <div class="text-center">
+                        <img src="asset_login/images/logo-icon.png" alt="logo icon">
+                    </div>
+                    <div class="card-title text-uppercase text-center py-3">LOGIN</div>
+                    <form method="POST" action="{{ route('login') }}">
+                    {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="exampleInputUsername" class="sr-only">Email</label>
+                                <div class="position-relative has-icon-right">
+                                    <input type="email" name="email" id="email" class="form-control input-shadow"
+                                        placeholder="Masukan Email" required>
+                                    <div class="form-control-position">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword" class="sr-only">Password</label>
+                                <div class="position-relative has-icon-right">
+                                    <input type="password" name="password" id="password" class="form-control input-shadow"
+                                        placeholder="Masukan Password" required>
+                                    <div class="form-control-position">
+                                        <i class="fa fa-lock" id="iconView" onclick="viewPassword()"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="form-row">
+                            {{-- <div class="form-group col-6">
+                            </div>
+                            <div class="form-group col-6 text-right">
+                                <a href="authentication-reset-password.html">Reset Password</a>
+                            </div> --}}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">LOGIN</button>
 
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Login
-						</button>
-					</div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-footer text-center py-3">
+                <p class="text-dark mb-0">Belum Punya Akun? <a href="{{ route('register') }}"> Registrasi</a>
+                </p>
+            </div>
+        </div>
 
-				</form>
-			</div>
-		</div>
-	</div>
-	
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
 
-	<div id="dropDownSelect1"></div>
-	
-<!--===============================================================================================-->
-	<script src="asset_login/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="asset_login/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-	<script src="asset_login/vendor/bootstrap/js/popper.js"></script>
-	<script src="asset_login/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="asset_login/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="asset_login/vendor/daterangepicker/moment.min.js"></script>
-	<script src="asset_login/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script src="asset_login/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script src="asset_login/js/main.js"></script>
 
+
+    </div>
+    <!--wrapper-->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('asset_login/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('asset_login/js/popper.min.js') }}"></script>
+    <script src="{{ asset('asset_login/js/bootstrap.min.js') }}"></script>
+
+    <!-- sidebar-menu js -->
+    <script src="{{ asset('asset_login/js/sidebar-menu.js') }}"></script>
+
+    <!-- Custom scripts -->
+    <script src="{{ asset('asset_login/js/app-script.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function viewPassword(){
+            var icon = $('#iconView').attr('class');
+            if(icon == 'fa fa-lock'){
+                $("#iconView").removeClass("fa fa-lock");
+                $("#iconView").addClass("fa fa-unlock");
+                $('#password').attr('type','text');
+            }else{
+                $("#iconView").removeClass("fa fa-unlock");
+                $("#iconView").addClass("fa fa-lock");
+                $('#password').attr('type','password');
+            }
+        }
+    </script>
+    @if(Session::has('success'))
+    <script type="text/javascript">
+        Swal.fire({
+            icon: 'success',
+            text: '{{Session::get("success")}}',
+            showConfirmButton: true
+        });
+    </script>
+    <?php
+        Session::forget('success');
+    ?>
+    @endif
+    @if(Session::has('error'))
+    <script type="text/javascript">
+        Swal.fire({
+            icon: 'error',
+            text: '{{Session::get("error")}}',
+            showConfirmButton: true
+        });
+    </script>
+    <?php
+        Session::forget('error');
+    ?>
+    @endif
 </body>
 </html>

@@ -9,9 +9,7 @@ class Pelamar extends Model
 {
     protected $table = 'pelamar';
 
-    protected $fillable = [
-        'users_id', 'tipe_kepribadian_id', 'alamat', 'nomor_telepon'
-    ];
+    protected $guarded = [];
 
     public function user()
     {

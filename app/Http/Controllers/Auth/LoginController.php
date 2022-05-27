@@ -41,7 +41,7 @@ class LoginController extends BaseController
         } else if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 2])) {
             return redirect()->intended('/admin/dashboard-admin');
         } else {
-            return redirect()->intended('/login');
+            return redirect()->intended('/login')->with('error','Email atau Password Salah !');
         }
     }
 
