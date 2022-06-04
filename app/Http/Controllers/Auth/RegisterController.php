@@ -85,7 +85,7 @@ class RegisterController extends Controller
             Pelamar::create([
                 'users_id'       => $user->id,
                 'alamat'         => $request->alamat,
-                'nomor_telepon'  => $request->alamat
+                'nomor_telepon'  => $request->telpon
             ]);
 
             return redirect()->back()->with(['success'=>'Registrasi Berhasil, Silahkan Login !']);

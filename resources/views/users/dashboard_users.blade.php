@@ -7,7 +7,7 @@
             <img src="{{asset('assets/img/logo.png')}}" width="30%">
             <div class="card">
                 <div class="card-body" align="center" style="background-color: #cc1616;border-radius: 15px;">
-                    <h3 style="color: white;margin-bottom: 30px;">CONTENT MANAGEMENT SYSTEM</h3>
+                    <h3 style="color: white;margin-bottom: 30px;">SELEKSI KARYAWAN</h3>
                     <h4 style="text-transform: uppercase; color: white;">SELAMAT DATANG - {{ Auth::guard('user')->user()->name }}</h4>
                 </div>
             </div>
