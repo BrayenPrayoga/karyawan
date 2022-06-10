@@ -43,14 +43,30 @@ class MasterJawabanController extends Controller
     {
         $id_pelamar = $_GET['id_pelamar'];
 
-        $data = DB::table('jawaban_soal_kepribadian')
+        $data['no'] = 1;
+        $data['jawaban'] = DB::table('jawaban_soal_kepribadian')
                 ->select('jawaban_soal_kepribadian.soal_kepribadian_id','pernyataan_kepribadian.soal','dimensi_kepribadian.nama')
                 ->leftjoin('pernyataan_kepribadian','pernyataan_kepribadian.id','jawaban_soal_kepribadian.pernyataan_kepribadian_id')
                 ->leftjoin('dimensi_kepribadian','dimensi_kepribadian.id','pernyataan_kepribadian.dimensi_kepribadian_id')
                 ->where('pelamar_id', $id_pelamar)
                 ->get();
 
-        echo json_encode($data);
+        $data['Introvert'] = (getPersentase(1,$id_pelamar)) ? getPersentase(1,$id_pelamar)[0]->persentase : 0;
+        $data['Extrovert'] = (getPersentase(5,$id_pelamar)) ? getPersentase(5,$id_pelamar)[0]->persentase : 0;
+        $data['Sensing'] = (getPersentase(2,$id_pelamar)) ? getPersentase(2,$id_pelamar)[0]->persentase : 0;
+        $data['Intuition'] = (getPersentase(6,$id_pelamar)) ? getPersentase(6,$id_pelamar)[0]->persentase : 0;
+        $data['Thinking'] = (getPersentase(3,$id_pelamar)) ? getPersentase(3,$id_pelamar)[0]->persentase : 0;
+        $data['Feeling'] = (getPersentase(7,$id_pelamar)) ? getPersentase(7,$id_pelamar)[0]->persentase : 0;
+        $data['Judging'] = (getPersentase(4,$id_pelamar)) ? getPersentase(4,$id_pelamar)[0]->persentase : 0;
+        $data['Perceiving'] = (getPersentase(8,$id_pelamar)) ? getPersentase(8,$id_pelamar)[0]->persentase : 0;
+
+        
+        $data['pelamar'] = DB::table('pelamar')->where('id', $id_pelamar)->first();
+        $data['tipe_kepribadian'] = DB::table('tipe_kepribadian')->where('id', $data['pelamar']->tipe_kepribadian_id)->first();
+        $data['deskripsi_tipe_kepribadian'] = DB::table('deskripsi_tipe_kepribadian')->where('tipe_kepribadian_id', $data['pelamar']->tipe_kepribadian_id)->get();
+        $data['saran_pengembangan_tipe_kepribadian'] = DB::table('saran_pengembangan_tipe_kepribadian')->where('tipe_kepribadian_id', $data['pelamar']->tipe_kepribadian_id)->get();
+
+        return view('admin.modal_view_jawaban', $data);
     }
 
     public function hapus($id_pelamar)

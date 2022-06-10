@@ -73,24 +73,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12" style="overflow-x:auto;">
-                        <table id="table-modal" width="100%" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th width="5%">No.</th>
-                                    <th width="5%">Urutan</th>
-                                    <th width="20%">Jawaban</th>
-                                    <th>Dimensi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="modal-body" id="modalBody">
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
@@ -153,22 +137,9 @@
     {
         var item = $(obj).data('item');
         var id_pelamar = item.id;
+        $('#modalBody').html('');
         $.get("{{ URL::to('admin/hasil/get-jawaban') }}",{id_pelamar:id_pelamar}, function(res){
-            var data = JSON.parse(res);
-            var html = '';
-
-            $('#table-modal tbody').html('');
-            $('#table-modal').DataTable().destroy();
-            $.each(data, function(i, val){
-                var no = i + 1;
-                html +='<tr>';
-                html +='<td>'+no+'</td>';
-                html +='<td>'+val.soal_kepribadian_id+'</td>';
-                html +='<td>'+val.soal+'</td>';
-                html +='<td>'+val.nama+'</td>';
-                html +='</tr>';
-            });
-            $('#table-modal tbody').html(html);
+            $('#modalBody').html(res);
             $('#table-modal').DataTable();
             $('#modal-view').modal('show');
         });
