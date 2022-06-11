@@ -42,7 +42,7 @@
                                     <input type="file" class="custom-file-input" id="cv" name="cv">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                 </div> --}}
-                                <input type="file" class="form-control" id="cv" name="cv">
+                                <input type="file" class="form-control" id="cv" name="cv" accept=".pdf" onchange="fileValidasi('cv')" >
                                 @if($users->cv != null)
                                 <a href="{{ url('/upload/cv/'.$users->cv) }}" target="_blank" class="btn btn-sm btn-dark" style="margin-top:7px;"><i class="fa fa-eyes"></i>Lihat</a>
                                 @endif
@@ -70,6 +70,32 @@
     $(document).ready(function(e){
 
     });
+
+    function fileValidasi(id) {
+        var fileInput = document.getElementById(id);
+        var file = fileInput.files[0];
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.pdf)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            Swal.fire(
+                'Format File Tidak Sesuai !',
+                'Please upload file having extensions .pdf only.',
+                'info'
+            )
+            fileInput.value = '';
+            return false;
+        } else {
+            if (file.size >= 10485760) { //10mb
+                Swal.fire(
+                    'Size File Terlalu Besar !',
+                    'File '+ file.name +'is'+ file.size +' bytes in size',
+                    'info'
+                )
+                fileInput.value = '';
+                return false;
+            }
+        }
+    }
 </script>
 @if(Session::has('success'))
     <script type="text/javascript">
