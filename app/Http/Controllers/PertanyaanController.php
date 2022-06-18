@@ -43,7 +43,7 @@ class PertanyaanController extends Controller
                 return redirect(route('user.pertanyaan', $nomor - 1));
             }else{
                 JawabanSoalKepribadian::updateOrCreate(
-                    ['soal_kepribadian_id' => $nomor],
+                    ['soal_kepribadian_id' => $nomor,'pelamar_id' => $id_pelamar],
                     ['pelamar_id' => $id_pelamar, 'soal_kepribadian_id' => $nomor, 'pernyataan_kepribadian_id' => $pernyataanKepribadianId]
                 );
                 return redirect(route('user.pertanyaan', $nomor - 1));
@@ -53,14 +53,14 @@ class PertanyaanController extends Controller
                 return redirect(route('user.pertanyaan', $nomor))->with(['error'=>'Silahkan Pilih Pernyataan']);
             }else{
                 JawabanSoalKepribadian::updateOrCreate(
-                    ['soal_kepribadian_id' => $nomor],
+                    ['soal_kepribadian_id' => $nomor,'pelamar_id' => $id_pelamar],
                     ['pelamar_id' => $id_pelamar, 'soal_kepribadian_id' => $nomor, 'pernyataan_kepribadian_id' => $pernyataanKepribadianId]
                 );
                 return redirect(route('user.pertanyaan', $nomor + 1));
             }
         } else if ($type == 'finish') {
             JawabanSoalKepribadian::updateOrCreate(
-                ['soal_kepribadian_id' => $nomor],
+                ['soal_kepribadian_id' => $nomor, 'pelamar_id' => $id_pelamar],
                 ['pelamar_id' => $id_pelamar, 'soal_kepribadian_id' => $nomor, 'pernyataan_kepribadian_id' => $pernyataanKepribadianId]
             );
             $tesKepribadianResults = DB::select("SELECT tipe_kepribadian.id, tipe_kepribadian.nama, tipe_kepribadian.kode, tipe_kepribadian.created_at, tipe_kepribadian.updated_at FROM (
