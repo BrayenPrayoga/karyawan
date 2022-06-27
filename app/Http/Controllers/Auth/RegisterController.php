@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -91,6 +92,19 @@ class RegisterController extends Controller
             return redirect()->back()->with(['success'=>'Registrasi Berhasil, Silahkan Login !']);
         }catch(Exception $e){
             return redirect()->back()->with(['error'=>'Gagal Berhasil '.$e]);
+        }
+    }
+
+    public function cekEmail()
+    {
+        $email = strtolower($_GET['email']);
+
+        $cek = User::where(DB::raw('lower(email)'), $email)->count();
+
+        if($cek > 0){
+            return 'ADA';
+        }else{
+            return 'TIDAK';
         }
     }
 }

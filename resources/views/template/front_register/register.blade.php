@@ -20,7 +20,19 @@
     <link href="asset_login/css/icons.css" rel="stylesheet" type="text/css" />
     <!-- Custom Style-->
     <link href="asset_login/css/app-style.css" rel="stylesheet" />
+    <style>
+        #alertPassword{
+            color:red;
+            font-size: 12px;
+        }
 
+        .invalid{
+            display: block;
+        }
+        .valid{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,7 +62,7 @@
                         <div class="form-group">
                             <label for="nama" class="sr-only">Nama</label>
                             <div class="position-relative has-icon-right">
-                                <input type="text" id="nama" name="nama" class="form-control input-shadow"
+                                <input type="text" id="nama" name="nama" class="form-control input-shadow" onkeypress="return hanyaHuruf(event)"
                                     placeholder="Masukan Nama" required>
                                 <div class="form-control-position">
                                     <i class="fa fa-user"></i>
@@ -70,7 +82,7 @@
                         <div class="form-group">
                             <label for="telpon" class="sr-only">No. Telp</label>
                             <div class="position-relative has-icon-right">
-                                <input type="tel" id="telpon" name="telpon" class="form-control input-shadow"
+                                <input type="tel" id="telpon" name="telpon" class="form-control input-shadow" onkeypress="return hanyaAngka(event)"
                                     placeholder="Masukan No. Telp" required>
                                 <div class="form-control-position">
                                     <i class="fa fa-phone"></i>
@@ -96,9 +108,16 @@
                                     <i class="fa fa-lock" id="iconView" onclick="viewPassword()"></i>
                                 </div>
                             </div>
+                            <span id="alertPassword" style="display:none;">
+                                Password Terdiri dari : 
+                                <span id="letter" class="invalid">*Huruf Kecil</span>
+                                <span id="capital" class="invalid">*Huruf Besar</span>
+                                <span id="number" class="invalid">*Mengandung Angka</span>
+                                <span id="length" class="invalid">*Minimal 8 Karakter</span>
+                            </span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block waves-effect waves-light">
+                        <button type="submit" id="btnSimpan" class="btn btn-primary btn-block waves-effect waves-light">
                             REGISTER
                         </button>
                     </form>
@@ -130,6 +149,23 @@
     <script src="asset_login/js/app-script.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+         $(document).ready(function(){
+            $('#email').change(function(){
+                var email = $('#email').val();
+                $.get("{{URL::to('cek-email')}}",{email:email},function(res){
+                    console.log(res);
+                    if(res == 'ADA'){
+                        $('#btnSimpan').attr('disabled',true);
+                        alertSubmit("Email Tersebut Sudah Terdaftar !");
+                        $('#email').val('');
+                    }else{
+                        $('#btnSimpan').attr('disabled',false);
+                        $('#btnSimpan').removeAttr('onclick');
+                    }
+                })
+            });
+        })
+
         function viewPassword(){
             var icon = $('#iconView').attr('class');
             if(icon == 'fa fa-lock'){
@@ -141,6 +177,94 @@
                 $("#iconView").addClass("fa fa-lock");
                 $('#password').attr('type','password');
             }
+        }
+
+        function hanyaHuruf(event){
+            var charCode = (event.which) ? event.which : event.keyCode
+            if ((charCode < 65 || charCode > 90)&&(charCode < 97 || charCode > 122)&&charCode>32)
+                return false;
+            return true;
+        }
+
+        function hanyaAngka(event) {
+            var angka = (event.which) ? event.which : event.keyCode
+            if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
+                return false;
+            return true;
+        }
+
+        function alertSubmit(message)
+        {
+            Swal.fire({
+                icon: 'info',
+                text: message,
+                showConfirmButton: false,
+                showConfirmButton: true
+            });
+        }
+    </script>
+    <script>
+        var myInput = document.getElementById("password");
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+
+        myInput.onfocus = function() {
+            document.getElementById("alertPassword").style.display = "block";
+        }
+        myInput.onblur = function() {
+            document.getElementById("alertPassword").style.display = "none";
+        }
+
+        myInput.onkeyup = function() {
+          // Validate lowercase letters
+          var lowerCaseLetters = /[a-z]/g;
+          if(myInput.value.match(lowerCaseLetters)) {  
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+          } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+          }
+          
+          // Validate capital letters
+          var upperCaseLetters = /[A-Z]/g;
+          if(myInput.value.match(upperCaseLetters)) {  
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+          } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+          }
+          // Validate numbers
+          var numbers = /[0-9]/g;
+          if(myInput.value.match(numbers)) {  
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+          } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+          }
+          
+          // Validate length
+          if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+          } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+          }
+
+          var valid = $('.valid').length;
+          if(valid == 4){
+            document.getElementById("alertPassword").style.display = "none";
+            $('#btnSimpan').attr('disabled',false);
+            $('#btnSimpan').removeAttr('onclick');
+          }else{
+            document.getElementById("alertPassword").style.display = "block";
+            $('#btnSimpan').attr('disabled',true);
+          }
         }
     </script>
     @if(Session::has('success'))

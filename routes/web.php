@@ -21,6 +21,9 @@ Route::namespace('Auth')->group(function () {
     Route::post('/logout', 'LoginController@logout')->name('logout');
     Route::get('/register', 'RegisterController@getRegister')->name('register');
     Route::post('/register', 'RegisterController@postRegister')->name('register.simpan');
+
+    // Cek Email
+    Route::get('cek-email','RegisterController@cekEmail')->name('cekEmail');
 });
 
 Route::name('admin.')->middleware('auth:admin')->prefix('admin')->group(function () {
