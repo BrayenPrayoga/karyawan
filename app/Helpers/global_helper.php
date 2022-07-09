@@ -68,4 +68,23 @@
             return $user;
         }
     }
+    if(!function_exists('getProfesi')){
+        function getProfesi($id)
+        {
+            $data = DB::table('saran_profesi_tipe_kepribadian')->where('id', $id)->first();
+
+            return ($data) ? $data->saran_profesi : '';
+        }
+    }
+    if(!function_exists('getPencarianProfesi')){
+        function getPencarianProfesi($id)
+        {
+            $data = DB::table('pencarian_profesi')
+                    ->leftjoin('saran_profesi_tipe_kepribadian','saran_profesi_tipe_kepribadian.id','pencarian_profesi.saran_profesi_tipe_kepribadian_id')
+                    ->where('pencarian_profesi.id', $id)
+                    ->first();
+
+            return ($data) ? strtoupper($data->saran_profesi) : '';
+        }
+    }
 ?>

@@ -18,7 +18,8 @@ class MasterJawabanController extends Controller
     public function index()
     {
         $data['no'] = 1;
-        $data['hasil'] = DB::table('pelamar')->select('pelamar.*','tipe_kepribadian.nama','tipe_kepribadian.kode')
+        $data['hasil'] = DB::table('pelamar')->select('pelamar.*','tipe_kepribadian.nama','tipe_kepribadian.kode','pencarian_profesi.tipe_kepribadian_id as pencarian_tipe_id','pencarian_profesi.saran_profesi_tipe_kepribadian_id as pencarian_saran_id')
+                    ->leftjoin('pencarian_profesi','pencarian_profesi.id','pelamar.pencarian_profesi_id')
                     ->leftjoin('tipe_kepribadian','tipe_kepribadian.id','pelamar.tipe_kepribadian_id')
                     ->whereNotNull('pelamar.tipe_kepribadian_id')
                     ->get();
@@ -82,5 +83,13 @@ class MasterJawabanController extends Controller
         }catch(\Exception $e){
             return redirect()->back()->with(['success'=> $e]);
         } 
+    }
+    
+    public function saran()
+    {
+        $pencarian_tipe_id = $_GET['saran_profesi_id'];
+        $data = DB::table('saran_profesi_tipe_kepribadian')->where('tipe_kepribadian_id', $pencarian_tipe_id)->get();
+
+        return $data;
     }
 }

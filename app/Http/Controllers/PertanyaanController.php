@@ -14,7 +14,7 @@ class PertanyaanController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request, $nomor = 0)
+    public function index(Request $request, $profesi= null, $nomor = 0)
     {
         $data['user'] = Auth::guard('user')->user()->id;
         $data['pelamar'] = DB::table('pelamar')->where('users_id', $data['user'])->first();
@@ -26,6 +26,13 @@ class PertanyaanController extends Controller
         $data['pertanyaan'] = DB::select("SELECT * FROM pernyataan_kepribadian WHERE soal_kepribadian_id = :soalKepribadianId", ['soalKepribadianId' => $nomor]);
         $data['cek_pertanyaan'] = DB::table('pernyataan_kepribadian')->select('soal_kepribadian_id')->groupBy('soal_kepribadian_id')->get();
         $data['jawabanSoalKepribadian'] = JawabanSoalKepribadian::where('pelamar_id', $data['pelamar']->id)->where('soal_kepribadian_id', '=', $nomor)->first();
+
+        
+        $data['profesi'] = base64_decode($profesi);
+        $data['cari_profesi'] = DB::table('pencarian_profesi')->select('pencarian_profesi.id','saran_profesi_tipe_kepribadian.saran_profesi')
+                ->leftjoin('saran_profesi_tipe_kepribadian','saran_profesi_tipe_kepribadian.id','pencarian_profesi.saran_profesi_tipe_kepribadian_id')
+                ->where('pencarian_profesi.status', 1)
+                ->get();
         
         return view('users.pertanyaan', $data);
     }
@@ -33,6 +40,7 @@ class PertanyaanController extends Controller
     public function simpan_pertanyaan(Request $request) {
         $type = $request->get('type');
         $nomor = $request->get('nomor');
+        $profesi = $request->get('profesi');
 
         $users_id = Auth::guard('user')->user()->id;
         $id_pelamar = DB::table('pelamar')->where('users_id', $users_id)->first()->id;
@@ -40,23 +48,23 @@ class PertanyaanController extends Controller
         $pernyataanKepribadianId = $request->get('pernyataan_kepribadian_id');
         if ($type == 'previous') {
             if ($pernyataanKepribadianId == null) {
-                return redirect(route('user.pertanyaan', $nomor - 1));
+                return redirect(route('user.pertanyaan', [$profesi, $nomor - 1]));
             }else{
                 JawabanSoalKepribadian::updateOrCreate(
                     ['soal_kepribadian_id' => $nomor,'pelamar_id' => $id_pelamar],
                     ['pelamar_id' => $id_pelamar, 'soal_kepribadian_id' => $nomor, 'pernyataan_kepribadian_id' => $pernyataanKepribadianId]
                 );
-                return redirect(route('user.pertanyaan', $nomor - 1));
+                return redirect(route('user.pertanyaan', [$profesi, $nomor - 1]));
             }
         } else if ($type == 'next') {
             if ($pernyataanKepribadianId == null) {
-                return redirect(route('user.pertanyaan', $nomor))->with(['error'=>'Silahkan Pilih Pernyataan']);
+                return redirect(route('user.pertanyaan', [$profesi, $nomor]))->with(['error'=>'Silahkan Pilih Pernyataan']);
             }else{
                 JawabanSoalKepribadian::updateOrCreate(
                     ['soal_kepribadian_id' => $nomor,'pelamar_id' => $id_pelamar],
                     ['pelamar_id' => $id_pelamar, 'soal_kepribadian_id' => $nomor, 'pernyataan_kepribadian_id' => $pernyataanKepribadianId]
                 );
-                return redirect(route('user.pertanyaan', $nomor + 1));
+                return redirect(route('user.pertanyaan', [$profesi, $nomor + 1]));
             }
         } else if ($type == 'finish') {
             JawabanSoalKepribadian::updateOrCreate(
@@ -88,12 +96,13 @@ class PertanyaanController extends Controller
                 $type_kepribadian = $tesKepribadianResults[0]->id;
                 DB::table('pelamar')->where('id', $id_pelamar)->update([
                     'tipe_kepribadian_id' => $type_kepribadian,
-                    'status'              => 1
+                    'status'              => 1,
+                    'pencarian_profesi_id' => base64_decode($profesi)
                 ]);
             } else {
-                return redirect(route('user.pertanyaan', $nomor))->with(['error'=>'Data Tidak Ditemukan']);
+                return redirect(route('user.pertanyaan', [$profesi, $nomor]))->with(['error'=>'Data Tidak Ditemukan']);
             }
-            return redirect(route('user.pertanyaan', 0))->with(['success'=>'Selesai']);
+            return redirect(route('user.pertanyaan', [$profesi,0]))->with(['success'=>'Selesai']);
         }
     }
 }

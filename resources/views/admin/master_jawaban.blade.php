@@ -22,9 +22,11 @@
                             <thead>
                                 <tr>
                                     <th width="10%">No.</th>
+                                    <th>Profesi</th>
                                     <th>Nama</th>
                                     <th>Tipe Kepribadian</th>
                                     <th>Kode</th>
+                                    <th>Saran</th>
                                     <th><center>Status</center></th>
                                     <th width="15%">Aksi</th>
                                 </tr>
@@ -33,9 +35,11 @@
                                 @foreach($hasil as $val)
                                 <tr>
                                     <td>{{ $no++ }}</td>
+                                    <td>{{ getProfesi($val->pencarian_saran_id) }}</td>
                                     <td>{{ getUser($val->users_id)->name }}</td>
                                     <td>{{ $val->nama }}</td>
                                     <td>{{ $val->kode }}</td>
+                                    <td><button type="button" class="btn btn-sm btn-info" onclick="getSaran('{{$val->tipe_kepribadian_id}}')">SARAN</button></td>
                                     <td>
                                         <center>
                                         @if($val->status == 1)
@@ -167,6 +171,40 @@
                     });
                 }
         })
+    }
+
+    function getSaran(saran_profesi_id){
+        var html = '<table width="100%" class="table table-striped table-bordered dt-responsive nowrap">'+
+                        '<thead>'+
+                        '<tr>'+
+                            '<th>No</th>'+
+                            '<th>Profesi</th>'+
+                        '</tr>'+
+                        '</thead>'+
+                        '<tbody id="SaranProfesi">'+
+
+                        '</tbody>'+
+                    '</table>';
+        $.get("{{ URL::to('admin/hasil/saran') }}",{saran_profesi_id:saran_profesi_id}, function(res){
+            console.log(res);
+            var option = '';
+            $.each(res, function(i, val){
+                var no = i + 1;
+                option += '<tr>';
+                option += '<td>'+no+'</td>';
+                option += '<td>'+val.saran_profesi+'</td>';
+                option += '</tr>';
+            })
+
+            $('#SaranProfesi').html(option);
+        })
+
+        Swal.fire({
+            icon: '',
+            title: 'Saran Profesi',
+            html: html,
+            showConfirmButton: true
+        });
     }
 </script>
 @if(Session::has('success'))

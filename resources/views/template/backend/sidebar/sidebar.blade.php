@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{route('user.pertanyaan', 1)}}" class="waves-effect">
+                <a href="{{route('user.pertanyaan', [base64_encode('kosong'),1])}}" class="waves-effect">
                 <i class="fa fa-tachometer"></i> <span>Tes Kepribadian</span>
                 </a>
             </li>
@@ -66,8 +66,18 @@
                 </a>
             </li>
             <li>
+                <a href="{{route('admin.profesi')}}" class="waves-effect">
+                <i class="fa fa-tachometer"></i> <span>Profesi</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{route('admin.pertanyaan')}}" class="waves-effect">
                 <i class="fa fa-tachometer"></i> <span>Pertanyaan</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('admin.proses')}}" class="waves-effect">
+                <i class="fa fa-tachometer"></i> <span>Proses Tes</span>
                 </a>
             </li>
             <li>

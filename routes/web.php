@@ -30,6 +30,12 @@ Route::name('admin.')->middleware('auth:admin')->prefix('admin')->group(function
     // Dashboard
     Route::get('dashboard-admin', 'DashboardAdminController@index')->name('dashboard');
 
+    // Profesi
+    Route::get('profesi', 'MasterProfesiController@index')->name('profesi');
+    Route::post('profesi/store', 'MasterProfesiController@store')->name('profesi.store');
+    Route::post('profesi/update', 'MasterProfesiController@update')->name('profesi.update');
+    Route::get('profesi/hapus/{id}', 'MasterProfesiController@hapus')->name('profesi.hapus');
+
     // Pertanyaan
     Route::get('pertanyaan', 'MasterPertanyaanController@index')->name('pertanyaan');
     Route::post('pertanyaan/store', 'MasterPertanyaanController@store')->name('pertanyaan.store');
@@ -37,10 +43,18 @@ Route::name('admin.')->middleware('auth:admin')->prefix('admin')->group(function
     Route::get('pertanyaan/hapus/{id}', 'MasterPertanyaanController@hapus')->name('pertanyaan.hapus');
 
     // Jawaban
+    Route::get('proses', 'MasterProsesController@index')->name('proses');
+    Route::post('proses/store', 'MasterProsesController@store')->name('proses.store');
+    Route::post('proses/update', 'MasterProsesController@update')->name('proses.update');
+    Route::get('proses/hapus/{id}', 'MasterProsesController@hapus')->name('proses.hapus');
+    Route::get('proses/get-profesi', 'MasterProsesController@getProfesi')->name('proses.getProfesi');
+
+    // Jawaban
     Route::get('hasil', 'MasterJawabanController@index')->name('hasil');
     Route::post('hasil/verifikasi-tes', 'MasterJawabanController@verifikasi_tes')->name('verifikasi_tes');
     Route::get('hasil/get-jawaban', 'MasterJawabanController@getJawaban')->name('getJawaban');
     Route::get('hasil/hapus/{id}', 'MasterJawabanController@hapus')->name('hapus');
+    Route::get('hasil/saran', 'MasterJawabanController@saran')->name('saran');
 
     //User Management
     Route::get('user-management', 'UserManagementController@index')->name('user_management');
@@ -58,7 +72,7 @@ Route::name('user.')->middleware('auth:user')->prefix('users')->group(function (
     Route::post('profil/update', 'ProfilController@update')->name('profil.update');
 
     // Pertanyaan
-    Route::get('pertanyaan/{nomor}', 'PertanyaanController@index')->name('pertanyaan');
+    Route::get('pertanyaan/{profesi}/{nomor}', 'PertanyaanController@index')->name('pertanyaan');
     Route::post('pertanyaan/simpan', 'PertanyaanController@simpan_pertanyaan')->name('simpan_pertanyaan');
 
     // Pertanyaan
