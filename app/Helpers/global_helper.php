@@ -87,4 +87,15 @@
             return ($data) ? strtoupper($data->saran_profesi) : '';
         }
     }
+    if(!function_exists('cekSaranSesuai')){
+        function cekSaranSesuai($profesi, $pencarian_tipe_id)
+        {
+            $data = DB::table('saran_profesi_tipe_kepribadian')
+                    ->where('tipe_kepribadian_id', $pencarian_tipe_id)
+                    ->where('saran_profesi','like', '%'.$profesi.'%')
+                    ->get();
+
+            return ($data) ? count($data) : 0;
+        }
+    }
 ?>

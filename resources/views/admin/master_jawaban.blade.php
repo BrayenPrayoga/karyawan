@@ -33,10 +33,16 @@
                             </thead>
                             <tbody>
                                 @foreach($hasil as $val)
+                                <?php $cekSaran = cekSaranSesuai(getProfesi($val->pencarian_saran_id), $val->tipe_kepribadian_id) ?>
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ getProfesi($val->pencarian_saran_id) }}</td>
-                                    <td>{{ getUser($val->users_id)->name }}</td>
+                                    <td>
+                                        {{ getUser($val->users_id)->name }}
+                                        @if($cekSaran > 0)
+                                        <span class="badge badge-warning"><i class="fa fa-trophy" aria-hidden="true"></i></span>
+                                        @endif
+                                    </td>
                                     <td>{{ $val->nama }}</td>
                                     <td>{{ $val->kode }}</td>
                                     <td><button type="button" class="btn btn-sm btn-info" onclick="getSaran('{{$val->tipe_kepribadian_id}}')">SARAN</button></td>
